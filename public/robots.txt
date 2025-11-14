@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://invia.ursis.com.ar/
+Sitemap: https://invia.ursis.com.ar/sitemap.xml
