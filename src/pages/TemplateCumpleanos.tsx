@@ -141,10 +141,8 @@ export default function TemplateCumpleanos() {
         audioRef.current.play()
           .then(() => {
             setIsPlaying(true)
-            console.log('Música iniciada correctamente')
           })
-          .catch((error) => {
-            console.log('Error al reproducir música:', error)
+          .catch(() => {
             setIsPlaying(false)
           })
       }

@@ -17,30 +17,56 @@ import {
   ArrowRight,
   Instagram,
   Facebook,
-  Twitter
+  Twitter,
+  MessageSquare,
+  Loader2,
+  AlertCircle
 } from 'lucide-react'
+import apiService from './config/apiService'
+import { WhitelistRegistration } from './config/api'
 
 function App() {
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
+  const [interestReason, setInterestReason] = useState('')
+  const [isEventOrganizer, setIsEventOrganizer] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Aquí iría la integración con el backend
-    console.log('Whitelist submission:', { name, email })
-    
-    // Reportar conversión a Google Ads
-    if (typeof window !== 'undefined' && (window as any).gtag_report_conversion) {
-      (window as any).gtag_report_conversion()
+    setLoading(true)
+    setError('')
+
+    const registrationData: WhitelistRegistration = {
+      name: name.trim(),
+      email: email.trim(),
+      interestReason: interestReason.trim(),
+      isEventOrganizer
     }
-    
-    setSubmitted(true)
-    setTimeout(() => {
-      setSubmitted(false)
-      setEmail('')
-      setName('')
-    }, 3000)
+
+    try {
+      await apiService.registerToWhitelist(registrationData)
+      
+      // Reportar conversión a Google Ads
+      if (typeof window !== 'undefined' && (window as any).gtag_report_conversion) {
+        (window as any).gtag_report_conversion()
+      }
+      
+      setSubmitted(true)
+      setTimeout(() => {
+        setSubmitted(false)
+        setEmail('')
+        setName('')
+        setInterestReason('')
+        setIsEventOrganizer(false)
+      }, 5000)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Ocurrió un error inesperado')
+    } finally {
+      setLoading(false)
+    }
   }
 
   const scrollToWhitelist = () => {
@@ -337,9 +363,16 @@ function App() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                  <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 flex items-center gap-3">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+                    <p className="text-red-700 text-sm">{error}</p>
+                  </div>
+                )}
+
                 <div>
                   <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Tu nombre
+                    Tu nombre *
                   </label>
                   <div className="relative">
                     <User className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -349,15 +382,16 @@ function App() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       required
+                      disabled={loading}
                       placeholder="Ingresá tu nombre"
-                      className="w-full pl-12 pr-4 py-4 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none text-lg transition-colors"
+                      className="w-full pl-12 pr-4 py-4 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none text-lg transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
                 <div>
                   <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Tu email
+                    Tu email *
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
@@ -367,18 +401,65 @@ function App() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
+                      disabled={loading}
                       placeholder="tucorreo@ejemplo.com"
-                      className="w-full pl-12 pr-4 py-4 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none text-lg transition-colors"
+                      className="w-full pl-12 pr-4 py-4 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none text-lg transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                     />
                   </div>
                 </div>
 
+                <div>
+                  <label htmlFor="interestReason" className="block text-sm font-semibold text-gray-700 mb-2">
+                    ¿Por qué te interesa URSIS Invitations? *
+                  </label>
+                  <div className="relative">
+                    <MessageSquare className="absolute left-4 top-4 text-gray-400 w-5 h-5" />
+                    <textarea
+                      id="interestReason"
+                      value={interestReason}
+                      onChange={(e) => setInterestReason(e.target.value)}
+                      required
+                      disabled={loading}
+                      rows={4}
+                      placeholder="Contanos qué tipo de eventos organizás o qué te atrae de crear invitaciones digitales..."
+                      className="w-full pl-12 pr-4 py-4 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none text-lg transition-colors resize-none disabled:bg-gray-50 disabled:cursor-not-allowed"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="isEventOrganizer"
+                    checked={isEventOrganizer}
+                    onChange={(e) => setIsEventOrganizer(e.target.checked)}
+                    disabled={loading}
+                    className="mt-1 w-5 h-5 text-nude-500 border-2 border-sand-200 rounded focus:ring-nude-400 focus:ring-2 disabled:cursor-not-allowed"
+                  />
+                  <label htmlFor="isEventOrganizer" className="text-sm text-gray-700 cursor-pointer">
+                    <span className="font-semibold">Soy organizador/a de eventos</span>
+                    <p className="text-gray-500 mt-1">
+                      Organizás bodas, cumpleaños, eventos corporativos u otros tipos de celebraciones
+                    </p>
+                  </label>
+                </div>
+
                 <button
                   type="submit"
-                  className="w-full bg-nude-500 hover:bg-nude-600 text-white py-5 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2"
+                  disabled={loading}
+                  className="w-full bg-nude-500 hover:bg-nude-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-5 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center gap-2"
                 >
-                  Unirme a la Whitelist
-                  <ArrowRight className="w-5 h-5" />
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Registrando...
+                    </>
+                  ) : (
+                    <>
+                      Unirme a la Whitelist
+                      <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
                 </button>
 
                 <p className="text-sm text-gray-500 text-center">
