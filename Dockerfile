@@ -16,6 +16,12 @@ COPY . .
 # Copiamos .env explícitamente (ya que está en .gitignore)
 COPY .env* ./
 
+# Debug: verificamos que el .env esté presente y tenga contenido
+RUN echo "=== DEBUG: Archivos .env ===" && ls -la .env* && echo "=== Contenido del .env ===" && cat .env || echo "No se encontró .env"
+
+# Debug: verificamos las variables de entorno antes del build
+RUN echo "=== DEBUG: Variables de entorno ===" && env | grep VITE || echo "No hay variables VITE"
+
 # Build de producción
 RUN npm run build
 
