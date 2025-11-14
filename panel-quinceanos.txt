@@ -1,0 +1,460 @@
+      {/* Panel de Edición Lateral */}
+      {showEditPanel && (
+      <div className="fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[60] transform transition-transform duration-300 translate-x-0 overflow-y-auto animate-slide-in">
+        <div className="flex flex-col h-full">
+          {/* Header del Panel */}
+          <div className="flex justify-between items-center p-4 border-b-2 border-purple-200 bg-gradient-to-r from-purple-50 to-pink-50">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <Settings className="w-5 h-5 text-purple-500" />
+              Editor
+            </h2>
+            <button 
+              onClick={() => setShowEditPanel(false)}
+              className="p-1.5 hover:bg-white rounded-full transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+
+          {/* Pestañas */}
+          <div className="flex border-b border-gray-200 bg-white px-1">
+            <button
+              onClick={() => setActiveTab('basico')}
+              className={`flex-1 py-3 px-1 text-xs font-semibold transition-colors border-b-2 ${
+                activeTab === 'basico'
+                  ? 'border-purple-500 text-purple-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              📋 Básico
+            </button>
+            <button
+              onClick={() => setActiveTab('textos')}
+              className={`flex-1 py-3 px-1 text-xs font-semibold transition-colors border-b-2 ${
+                activeTab === 'textos'
+                  ? 'border-purple-500 text-purple-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              ✏️ Textos
+            </button>
+            <button
+              onClick={() => setActiveTab('programa')}
+              className={`flex-1 py-3 px-1 text-xs font-semibold transition-colors border-b-2 ${
+                activeTab === 'programa'
+                  ? 'border-purple-500 text-purple-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              🎵 Programa
+            </button>
+            <button
+              onClick={() => setActiveTab('rsvp')}
+              className={`flex-1 py-3 px-1 text-xs font-semibold transition-colors border-b-2 ${
+                activeTab === 'rsvp'
+                  ? 'border-purple-500 text-purple-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              💌 RSVP
+            </button>
+            <button
+              onClick={() => setActiveTab('regalos')}
+              className={`flex-1 py-3 px-1 text-xs font-semibold transition-colors border-b-2 ${
+                activeTab === 'regalos'
+                  ? 'border-purple-500 text-purple-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              🎁 Regalos
+            </button>
+          </div>
+
+          {/* Contenido de las pestañas */}
+          <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+            
+            {/* TAB: Básico */}
+            {activeTab === 'basico' && (
+              <div className="space-y-4">
+                {/* Quinceañera */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <Crown className="w-4 h-4 text-purple-500" />
+                    Quinceañera
+                  </h3>
+                  <input
+                    type="text"
+                    value={invitationData.nombre}
+                    onChange={(e) => updateInvitationField('nombre', e.target.value)}
+                    placeholder="Nombre"
+                    className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+
+                {/* Fecha */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-purple-500" />
+                    Fecha
+                  </h3>
+                  <input
+                    type="date"
+                    value={invitationData.fecha}
+                    onChange={(e) => updateInvitationField('fecha', e.target.value)}
+                    className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+
+                {/* Ceremonia */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <Heart className="w-4 h-4 text-purple-500" />
+                    Ceremonia
+                  </h3>
+                  <div className="space-y-2">
+                    <input
+                      type="time"
+                      value={invitationData.horaCeremonia}
+                      onChange={(e) => updateInvitationField('horaCeremonia', e.target.value)}
+                      onFocus={() => scrollToSection('programa')}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.lugarCeremonia}
+                      onChange={(e) => updateInvitationField('lugarCeremonia', e.target.value)}
+                      onFocus={() => scrollToSection('programa')}
+                      placeholder="Lugar"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.direccionCeremonia}
+                      onChange={(e) => updateInvitationField('direccionCeremonia', e.target.value)}
+                      onFocus={() => scrollToSection('programa')}
+                      placeholder="Dirección"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Fiesta */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <Music className="w-4 h-4 text-purple-500" />
+                    Fiesta
+                  </h3>
+                  <div className="space-y-2">
+                    <input
+                      type="time"
+                      value={invitationData.horaFiesta}
+                      onChange={(e) => updateInvitationField('horaFiesta', e.target.value)}
+                      onFocus={() => scrollToSection('programa')}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.lugarFiesta}
+                      onChange={(e) => updateInvitationField('lugarFiesta', e.target.value)}
+                      onFocus={() => scrollToSection('programa')}
+                      placeholder="Lugar"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.direccionFiesta}
+                      onChange={(e) => updateInvitationField('direccionFiesta', e.target.value)}
+                      onFocus={() => scrollToSection('programa')}
+                      placeholder="Dirección"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Imagen */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <Crown className="w-4 h-4 text-purple-500" />
+                    Imagen de Fondo
+                  </h3>
+                  <input
+                    type="url"
+                    value={invitationData.imagenFondo}
+                    onChange={(e) => updateInvitationField('imagenFondo', e.target.value)}
+                    onFocus={() => scrollToSection('hero')}
+                    placeholder="https://..."
+                    className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* TAB: Textos */}
+            {activeTab === 'textos' && (
+              <div className="space-y-4">
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">Hero</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloHero}
+                      onChange={(e) => updateInvitationField('tituloHero', e.target.value)}
+                      placeholder="Título"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.mensajeHero}
+                      onChange={(e) => updateInvitationField('mensajeHero', e.target.value)}
+                      placeholder="Mensaje"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <textarea
+                      value={invitationData.descripcionHero}
+                      onChange={(e) => updateInvitationField('descripcionHero', e.target.value)}
+                      placeholder="Descripción"
+                      rows={2}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none resize-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">Títulos</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloPrograma}
+                      onChange={(e) => updateInvitationField('tituloPrograma', e.target.value)}
+                      placeholder="Título Programa"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.tituloCeremonia}
+                      onChange={(e) => updateInvitationField('tituloCeremonia', e.target.value)}
+                      placeholder="Título Ceremonia"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.tituloFiesta}
+                      onChange={(e) => updateInvitationField('tituloFiesta', e.target.value)}
+                      placeholder="Título Fiesta"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">Dress Code</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloDressCode}
+                      onChange={(e) => updateInvitationField('tituloDressCode', e.target.value)}
+                      placeholder="Título"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.mensajeDressCode}
+                      onChange={(e) => updateInvitationField('mensajeDressCode', e.target.value)}
+                      placeholder="Mensaje"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <textarea
+                      value={invitationData.detallesDressCode}
+                      onChange={(e) => updateInvitationField('detallesDressCode', e.target.value)}
+                      placeholder="Detalles"
+                      rows={2}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none resize-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: Programa */}
+            {activeTab === 'programa' && (
+              <div className="space-y-4">
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">Título Timeline</h3>
+                  <input
+                    type="text"
+                    value={invitationData.tituloTimeline}
+                    onChange={(e) => updateInvitationField('tituloTimeline', e.target.value)}
+                    placeholder="Título"
+                    className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                  />
+                </div>
+
+                {[1, 2, 3, 4, 5, 6].map((num) => (
+                  <div key={num} className="bg-white rounded-lg p-4 shadow-sm">
+                    <h3 className="font-bold text-gray-900 mb-3">Evento {num}</h3>
+                    <div className="space-y-2">
+                      <input
+                        type="time"
+                        value={invitationData[`evento${num}Hora` as keyof InvitationData]}
+                        onChange={(e) => updateInvitationField(`evento${num}Hora` as keyof InvitationData, e.target.value)}
+                        className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                      />
+                      <input
+                        type="text"
+                        value={invitationData[`evento${num}Desc` as keyof InvitationData]}
+                        onChange={(e) => updateInvitationField(`evento${num}Desc` as keyof InvitationData, e.target.value)}
+                        placeholder="Descripción"
+                        className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* TAB: RSVP */}
+            {activeTab === 'rsvp' && (
+              <div className="space-y-4">
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">RSVP</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloRSVP}
+                      onChange={(e) => updateInvitationField('tituloRSVP', e.target.value)}
+                      placeholder="Título"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.labelNombre}
+                      onChange={(e) => updateInvitationField('labelNombre', e.target.value)}
+                      placeholder="Label Nombre"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.placeholderNombre}
+                      onChange={(e) => updateInvitationField('placeholderNombre', e.target.value)}
+                      placeholder="Placeholder Nombre"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.labelAcompañantes}
+                      onChange={(e) => updateInvitationField('labelAcompañantes', e.target.value)}
+                      placeholder="Label Acompañantes"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.textoBotonRSVP}
+                      onChange={(e) => updateInvitationField('textoBotonRSVP', e.target.value)}
+                      placeholder="Texto del botón"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.mensajeConfirmacion}
+                      onChange={(e) => updateInvitationField('mensajeConfirmacion', e.target.value)}
+                      placeholder="Mensaje confirmación"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <textarea
+                      value={invitationData.mensajeAgradecimiento}
+                      onChange={(e) => updateInvitationField('mensajeAgradecimiento', e.target.value)}
+                      placeholder="Mensaje agradecimiento"
+                      rows={2}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none resize-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: Regalos */}
+            {activeTab === 'regalos' && (
+              <div className="space-y-4">
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">General</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloRegalos}
+                      onChange={(e) => updateInvitationField('tituloRegalos', e.target.value)}
+                      placeholder="Título"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <textarea
+                      value={invitationData.descripcionRegalos}
+                      onChange={(e) => updateInvitationField('descripcionRegalos', e.target.value)}
+                      placeholder="Descripción"
+                      rows={3}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none resize-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">Sobres</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloSobres}
+                      onChange={(e) => updateInvitationField('tituloSobres', e.target.value)}
+                      placeholder="Título"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <textarea
+                      value={invitationData.descripcionSobres}
+                      onChange={(e) => updateInvitationField('descripcionSobres', e.target.value)}
+                      placeholder="Descripción"
+                      rows={2}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none resize-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">Lista de Regalos</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloLista}
+                      onChange={(e) => updateInvitationField('tituloLista', e.target.value)}
+                      placeholder="Título"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.textoVerLista}
+                      onChange={(e) => updateInvitationField('textoVerLista', e.target.value)}
+                      placeholder="Texto del enlace"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-purple-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer con botón de cerrar */}
+          <div className="p-4 border-t border-gray-200 bg-white">
+            <button
+              onClick={() => setShowEditPanel(false)}
+              className="w-full py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white rounded-lg font-semibold transition-all shadow-md"
+            >
+              Cerrar Editor
+            </button>
+          </div>
+        </div>
+      </div>
+      )}
+
+      {/* Overlay cuando el panel está abierto */}
+      {showEditPanel && (
+        <div 
+          className="fixed inset-0 bg-black/30 z-[55]"
+          onClick={() => setShowEditPanel(false)}
+        />
+      )}

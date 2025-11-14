@@ -6,6 +6,7 @@ import TemplateCasamiento from './pages/TemplateCasamiento.tsx'
 import TemplateCumpleanos from './pages/TemplateCumpleanos.tsx'
 import TemplateQuinceanos from './pages/TemplateQuinceanos.tsx'
 import TemplateBabyShower from './pages/TemplateBabyShower.tsx'
+import Whitelist from './pages/Whitelist.tsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -17,6 +18,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/template/cumpleanos" element={<TemplateCumpleanos />} />
         <Route path="/template/quince" element={<TemplateQuinceanos />} />
         <Route path="/template/babyshower" element={<TemplateBabyShower />} />
+        <Route path="/whitelist" element={<Whitelist />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

@@ -1,6 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Baby, Calendar, MapPin, Clock, Heart, Gift, ArrowLeft, Share2, Volume2, VolumeX, Sparkles } from 'lucide-react'
+import { Baby, Calendar, MapPin, Clock, Heart, Gift, ArrowLeft, Volume2, VolumeX, Sparkles, Settings, X, Upload } from 'lucide-react'
+import { EditableField } from '../components/EditableField'
+import { EditableImage } from '../components/EditableImage'
 
 interface InvitationData {
   nombreBebe: string
@@ -11,6 +13,29 @@ interface InvitationData {
   direccion: string
   nombresMama: string
   nombresPapa: string
+  imagenFondo: string
+  // Textos hero
+  tituloHero: string
+  mensajeHero: string
+  descripcionHero: string
+  emojisHero: string
+  // Títulos de secciones
+  tituloDetalles: string
+  tituloPadres: string
+  subtituloPadres: string
+  // RSVP
+  tituloRSVP: string
+  labelNombre: string
+  placeholderNombre: string
+  textoBotonRSVP: string
+  mensajeConfirmacion: string
+  // Regalos
+  tituloRegalos: string
+  descripcionRegalos: string
+  tituloRegistro: string
+  textoVerRegistro: string
+  tituloEfectivo: string
+  descripcionEfectivo: string
 }
 
 export default function TemplateBabyShower() {
@@ -18,6 +43,8 @@ export default function TemplateBabyShower() {
   const [isPlaying, setIsPlaying] = useState(false)
   const [envelopeOpened, setEnvelopeOpened] = useState(false)
   const [formCompleted, setFormCompleted] = useState(false)
+  const [showEditPanel, setShowEditPanel] = useState(false)
+  const [activeTab, setActiveTab] = useState<'basico' | 'textos' | 'rsvp' | 'regalos'>('basico')
   const [invitationData, setInvitationData] = useState<InvitationData>({
     nombreBebe: '',
     sexo: 'niño',
@@ -26,7 +53,26 @@ export default function TemplateBabyShower() {
     lugar: '',
     direccion: '',
     nombresMama: '',
-    nombresPapa: ''
+    nombresPapa: '',
+    imagenFondo: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=1920&q=80',
+    tituloHero: 'Baby Shower',
+    mensajeHero: '¡está en camino!',
+    descripcionHero: 'Celebremos juntos la llegada de nuestro bebé con amor, risas y buenos deseos',
+    emojisHero: '👶💙✨',
+    tituloDetalles: '👶 Detalles del evento',
+    tituloPadres: 'Los futuros papás',
+    subtituloPadres: 'Esperando con amor la llegada de',
+    tituloRSVP: '¡Confirmá tu asistencia!',
+    labelNombre: 'Tu nombre',
+    placeholderNombre: 'Ingresá tu nombre',
+    textoBotonRSVP: '💙 Confirmar',
+    mensajeConfirmacion: '¡Confirmado! 🎉',
+    tituloRegalos: '🎁 Lista de regalos',
+    descripcionRegalos: 'Si querés ayudarnos a preparar la llegada del bebé, acá dejamos algunas opciones',
+    tituloRegistro: 'Registro de regalos',
+    textoVerRegistro: 'Ver registro →',
+    tituloEfectivo: 'Efectivo',
+    descripcionEfectivo: 'También podés colaborar con efectivo para lo que necesitemos'
   })
   const audioRef = useRef<HTMLAudioElement>(null)
 
@@ -83,10 +129,40 @@ export default function TemplateBabyShower() {
       lugar: 'Jardín Las Rosas',
       direccion: 'Av. Santa Fe 2345, Palermo',
       nombresMama: 'Laura',
-      nombresPapa: 'Martín'
+      nombresPapa: 'Martín',
+      imagenFondo: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=1920&q=80',
+      tituloHero: 'Baby Shower',
+      mensajeHero: '¡está en camino!',
+      descripcionHero: 'Celebremos juntos la llegada de nuestro bebé con amor, risas y buenos deseos',
+      emojisHero: '👶💙✨',
+      tituloDetalles: '👶 Detalles del evento',
+      tituloPadres: 'Los futuros papás',
+      subtituloPadres: 'Esperando con amor la llegada de',
+      tituloRSVP: '¡Confirmá tu asistencia!',
+      labelNombre: 'Tu nombre',
+      placeholderNombre: 'Ingresá tu nombre',
+      textoBotonRSVP: '💙 Confirmar',
+      mensajeConfirmacion: '¡Confirmado! 🎉',
+      tituloRegalos: '🎁 Lista de regalos',
+      descripcionRegalos: 'Si querés ayudarnos a preparar la llegada del bebé, acá dejamos algunas opciones',
+      tituloRegistro: 'Registro de regalos',
+      textoVerRegistro: 'Ver registro →',
+      tituloEfectivo: 'Efectivo',
+      descripcionEfectivo: 'También podés colaborar con efectivo para lo que necesitemos'
     })
     setFormCompleted(true)
     window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const updateInvitationField = (field: keyof InvitationData, value: string) => {
+    setInvitationData(prev => ({ ...prev, [field]: value }))
+  }
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    }
   }
 
   const colorScheme = invitationData.sexo === 'niño' 
@@ -316,24 +392,443 @@ export default function TemplateBabyShower() {
               <ArrowLeft className="w-5 h-5" />
               <span className="font-semibold">Volver</span>
             </Link>
-            <button className="p-2 rounded-full hover:bg-blue-100">
-              <Share2 className="w-5 h-5" />
-            </button>
+            <div className="flex items-center gap-3">
+              <button 
+                onClick={() => setShowEditPanel(!showEditPanel)}
+                className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-all shadow-md hover:shadow-lg"
+              >
+                <Settings className="w-5 h-5" />
+                <span className="font-semibold">Panel de Edición</span>
+              </button>
+              <Link
+                to="/whitelist"
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white rounded-lg transition-all shadow-md hover:shadow-lg"
+              >
+                <Upload className="w-5 h-5" />
+                <span className="font-semibold">Publicar</span>
+              </Link>
+            </div>
           </div>
         </div>
       </nav>
 
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Panel de Edición Lateral */}
+      {showEditPanel && (
+      <div className="fixed top-0 right-0 h-full w-96 bg-white shadow-2xl z-[60] transform transition-transform duration-300 translate-x-0 overflow-y-auto animate-slide-in">
+        <div className="flex flex-col h-full">
+          {/* Header del Panel */}
+          <div className="flex justify-between items-center p-4 border-b-2 border-blue-200 bg-gradient-to-r from-blue-50 to-sky-50">
+            <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+              <Settings className="w-5 h-5 text-blue-500" />
+              Editor
+            </h2>
+            <button 
+              onClick={() => setShowEditPanel(false)}
+              className="p-1.5 hover:bg-white rounded-full transition-colors"
+            >
+              <X className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+
+          {/* Pestañas */}
+          <div className="flex border-b border-gray-200 bg-white px-2">
+            <button
+              onClick={() => setActiveTab('basico')}
+              className={`flex-1 py-3 px-2 text-sm font-semibold transition-colors border-b-2 ${
+                activeTab === 'basico'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              📋 Básico
+            </button>
+            <button
+              onClick={() => setActiveTab('textos')}
+              className={`flex-1 py-3 px-2 text-sm font-semibold transition-colors border-b-2 ${
+                activeTab === 'textos'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              ✏️ Textos
+            </button>
+            <button
+              onClick={() => setActiveTab('rsvp')}
+              className={`flex-1 py-3 px-2 text-sm font-semibold transition-colors border-b-2 ${
+                activeTab === 'rsvp'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              💌 RSVP
+            </button>
+            <button
+              onClick={() => setActiveTab('regalos')}
+              className={`flex-1 py-3 px-2 text-sm font-semibold transition-colors border-b-2 ${
+                activeTab === 'regalos'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700'
+              }`}
+            >
+              🎁 Regalos
+            </button>
+          </div>
+
+          {/* Contenido de las pestañas */}
+          <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+            
+            {/* TAB: Básico */}
+            {activeTab === 'basico' && (
+              <div className="space-y-4">
+                {/* Bebé */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <Baby className="w-4 h-4 text-blue-500" />
+                    Bebé
+                  </h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.nombreBebe}
+                      onChange={(e) => updateInvitationField('nombreBebe', e.target.value)}
+                      placeholder="Nombre del bebé"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <select
+                      value={invitationData.sexo}
+                      onChange={(e) => updateInvitationField('sexo', e.target.value)}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    >
+                      <option value="niño">Niño 👶💙</option>
+                      <option value="niña">Niña 👶💗</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Fecha y Hora */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <Calendar className="w-4 h-4 text-blue-500" />
+                    Fecha & Hora
+                  </h3>
+                  <div className="space-y-2">
+                    <div>
+                      <label className="text-xs text-gray-600 mb-1 block">Fecha</label>
+                      <input
+                        type="date"
+                        value={invitationData.fechaEvento}
+                        onChange={(e) => updateInvitationField('fechaEvento', e.target.value)}
+                        onFocus={() => scrollToSection('detalles')}
+                        className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-xs text-gray-600 mb-1 block">Hora</label>
+                      <input
+                        type="time"
+                        value={invitationData.hora}
+                        onChange={(e) => updateInvitationField('hora', e.target.value)}
+                        onFocus={() => scrollToSection('detalles')}
+                        className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Lugar */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <MapPin className="w-4 h-4 text-blue-500" />
+                    Lugar
+                  </h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.lugar}
+                      onChange={(e) => updateInvitationField('lugar', e.target.value)}
+                      onFocus={() => scrollToSection('detalles')}
+                      placeholder="Nombre del lugar"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.direccion}
+                      onChange={(e) => updateInvitationField('direccion', e.target.value)}
+                      onFocus={() => scrollToSection('detalles')}
+                      placeholder="Dirección"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Padres */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <Heart className="w-4 h-4 text-blue-500" />
+                    Padres
+                  </h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.nombresMama}
+                      onChange={(e) => updateInvitationField('nombresMama', e.target.value)}
+                      placeholder="Nombre de la mamá"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.nombresPapa}
+                      onChange={(e) => updateInvitationField('nombresPapa', e.target.value)}
+                      placeholder="Nombre del papá"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Imagen */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <Baby className="w-4 h-4 text-blue-500" />
+                    Imagen de Fondo
+                  </h3>
+                  <input
+                    type="url"
+                    value={invitationData.imagenFondo}
+                    onChange={(e) => updateInvitationField('imagenFondo', e.target.value)}
+                    onFocus={() => scrollToSection('hero')}
+                    placeholder="https://..."
+                    className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* TAB: Textos */}
+            {activeTab === 'textos' && (
+              <div className="space-y-4">
+                {/* Hero */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">Hero</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloHero}
+                      onChange={(e) => updateInvitationField('tituloHero', e.target.value)}
+                      onFocus={() => scrollToSection('hero')}
+                      placeholder="Título"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.mensajeHero}
+                      onChange={(e) => updateInvitationField('mensajeHero', e.target.value)}
+                      onFocus={() => scrollToSection('hero')}
+                      placeholder="Mensaje"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <textarea
+                      value={invitationData.descripcionHero}
+                      onChange={(e) => updateInvitationField('descripcionHero', e.target.value)}
+                      onFocus={() => scrollToSection('hero')}
+                      placeholder="Descripción"
+                      rows={3}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none resize-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.emojisHero}
+                      onChange={(e) => updateInvitationField('emojisHero', e.target.value)}
+                      onFocus={() => scrollToSection('hero')}
+                      placeholder="Emojis"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                {/* Títulos */}
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">Títulos</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloDetalles}
+                      onChange={(e) => updateInvitationField('tituloDetalles', e.target.value)}
+                      placeholder="Título Detalles"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.tituloPadres}
+                      onChange={(e) => updateInvitationField('tituloPadres', e.target.value)}
+                      placeholder="Título Padres"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.subtituloPadres}
+                      onChange={(e) => updateInvitationField('subtituloPadres', e.target.value)}
+                      placeholder="Subtítulo Padres"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: RSVP */}
+            {activeTab === 'rsvp' && (
+              <div className="space-y-4">
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">RSVP</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloRSVP}
+                      onChange={(e) => updateInvitationField('tituloRSVP', e.target.value)}
+                      placeholder="Título"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.labelNombre}
+                      onChange={(e) => updateInvitationField('labelNombre', e.target.value)}
+                      placeholder="Label Nombre"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.placeholderNombre}
+                      onChange={(e) => updateInvitationField('placeholderNombre', e.target.value)}
+                      placeholder="Placeholder Nombre"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.textoBotonRSVP}
+                      onChange={(e) => updateInvitationField('textoBotonRSVP', e.target.value)}
+                      placeholder="Texto del botón"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.mensajeConfirmacion}
+                      onChange={(e) => updateInvitationField('mensajeConfirmacion', e.target.value)}
+                      placeholder="Mensaje confirmación"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* TAB: Regalos */}
+            {activeTab === 'regalos' && (
+              <div className="space-y-4">
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">General</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloRegalos}
+                      onChange={(e) => updateInvitationField('tituloRegalos', e.target.value)}
+                      placeholder="Título"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <textarea
+                      value={invitationData.descripcionRegalos}
+                      onChange={(e) => updateInvitationField('descripcionRegalos', e.target.value)}
+                      placeholder="Descripción"
+                      rows={3}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none resize-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">Registro</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloRegistro}
+                      onChange={(e) => updateInvitationField('tituloRegistro', e.target.value)}
+                      placeholder="Título"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <input
+                      type="text"
+                      value={invitationData.textoVerRegistro}
+                      onChange={(e) => updateInvitationField('textoVerRegistro', e.target.value)}
+                      placeholder="Texto del enlace"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-lg p-4 shadow-sm">
+                  <h3 className="font-bold text-gray-900 mb-3">Efectivo</h3>
+                  <div className="space-y-2">
+                    <input
+                      type="text"
+                      value={invitationData.tituloEfectivo}
+                      onChange={(e) => updateInvitationField('tituloEfectivo', e.target.value)}
+                      placeholder="Título"
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none"
+                    />
+                    <textarea
+                      value={invitationData.descripcionEfectivo}
+                      onChange={(e) => updateInvitationField('descripcionEfectivo', e.target.value)}
+                      placeholder="Descripción"
+                      rows={2}
+                      className="w-full px-3 py-2 text-sm border rounded-lg focus:border-blue-400 focus:outline-none resize-none"
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer con botón de cerrar */}
+          <div className="p-4 border-t border-gray-200 bg-white">
+            <button
+              onClick={() => setShowEditPanel(false)}
+              className="w-full py-3 bg-gradient-to-r from-blue-500 to-sky-500 hover:from-blue-600 hover:to-sky-600 text-white rounded-lg font-semibold transition-all shadow-md"
+            >
+              Cerrar Editor
+            </button>
+          </div>
+        </div>
+      </div>
+      )}
+
+      {/* Overlay cuando el panel está abierto */}
+      {showEditPanel && (
+        <div 
+          className="fixed inset-0 bg-black/30 z-[55]"
+          onClick={() => setShowEditPanel(false)}
+        />
+      )}
+
+      {/* Banner informativo de edición */}
+      <div className="bg-gradient-to-r from-blue-400 via-pink-400 to-blue-400 text-white py-3 px-4 text-center shadow-md">
+        <p className="text-sm sm:text-base font-semibold flex items-center justify-center gap-2">
+          <Sparkles className="w-4 h-4" />
+          ✨ Hacé doble clic en cualquier texto o imagen para editarlo ✨
+          <Sparkles className="w-4 h-4" />
+        </p>
+      </div>
+
+      <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Imagen de fondo */}
         <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=1920&q=80" 
+          <EditableImage
+            src={invitationData.imagenFondo}
             alt="Baby shower"
+            onSave={(newSrc) => updateInvitationField('imagenFondo', newSrc)}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/50 via-pink-900/30 to-white"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-blue-900/50 via-pink-900/30 to-white pointer-events-none"></div>
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/30 to-white"></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/30 to-white pointer-events-none"></div>
         
         {/* Nubes decorativas */}
         <div className="absolute top-10 left-10 w-32 h-20 bg-white rounded-full opacity-80 shadow-lg"></div>
@@ -347,14 +842,40 @@ export default function TemplateBabyShower() {
           
           <h1 className="text-6xl sm:text-7xl font-bold mb-6 drop-shadow-2xl">
             <span className="text-white">
-              Baby Shower
+              <EditableField
+                value={invitationData.tituloHero}
+                onSave={(value) => updateInvitationField('tituloHero', value)}
+                className="text-white"
+                inputClassName="text-6xl sm:text-7xl font-bold text-gray-900 text-center"
+                showEditIcon={false}
+              />
             </span>
           </h1>
           
-          <div className="text-5xl mb-8 drop-shadow-lg">{colorScheme.emoji}✨</div>
+          <div className="text-5xl mb-8 drop-shadow-lg">
+            <EditableField
+              value={invitationData.emojisHero}
+              onSave={(value) => updateInvitationField('emojisHero', value)}
+              className="text-5xl"
+              inputClassName="text-5xl text-center w-full"
+              showEditIcon={false}
+            />
+          </div>
           
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto mb-8 shadow-2xl">
-            <p className="text-4xl font-bold text-gray-800 mb-4">¡{invitationData.nombreBebe} está en camino!</p>
+            <p className="text-4xl font-bold text-gray-800 mb-4">¡<EditableField
+              value={invitationData.nombreBebe}
+              onSave={(value) => updateInvitationField('nombreBebe', value)}
+              className="text-4xl font-bold text-gray-800"
+              inputClassName="text-4xl font-bold text-gray-800 text-center"
+              showEditIcon={false}
+            /> <EditableField
+              value={invitationData.mensajeHero}
+              onSave={(value) => updateInvitationField('mensajeHero', value)}
+              className="text-4xl font-bold text-gray-800"
+              inputClassName="text-4xl font-bold text-gray-800 text-center"
+              showEditIcon={false}
+            /></p>
             
             <div className="flex items-center justify-center gap-4 mb-4">
               <div className="h-px w-16 bg-gradient-to-r from-transparent to-blue-400"></div>
@@ -363,7 +884,13 @@ export default function TemplateBabyShower() {
             </div>
             
             <p className="text-xl text-gray-700 leading-relaxed">
-              Celebremos juntos la llegada de nuestro bebé con amor, risas y buenos deseos
+              <EditableField
+                value={invitationData.descripcionHero}
+                onSave={(value) => updateInvitationField('descripcionHero', value)}
+                className="text-xl text-gray-700 leading-relaxed"
+                inputClassName="text-xl text-gray-700 leading-relaxed w-full text-center"
+                multiline
+              />
             </p>
           </div>
 
@@ -376,16 +903,29 @@ export default function TemplateBabyShower() {
               <div className="hidden sm:block w-1 h-1 bg-blue-400 rounded-full"></div>
               <div className="flex items-center gap-2 text-gray-800">
                 <MapPin className="w-5 h-5 text-blue-500" />
-                <span className="font-semibold">{invitationData.lugar}</span>
+                <EditableField
+                  value={invitationData.lugar}
+                  onSave={(value) => updateInvitationField('lugar', value)}
+                  className="font-semibold"
+                  inputClassName="font-semibold text-gray-900"
+                  showEditIcon={false}
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-white">
+      <section id="detalles" className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900">👶 Detalles del evento</h2>
+          <h2 className="text-4xl font-bold text-center mb-12 text-gray-900">
+            <EditableField
+              value={invitationData.tituloDetalles}
+              onSave={(value) => updateInvitationField('tituloDetalles', value)}
+              className="text-4xl font-bold text-center text-gray-900"
+              inputClassName="text-4xl font-bold text-center text-gray-900 w-full"
+            />
+          </h2>
           <div className="bg-gradient-to-br from-blue-100 to-pink-100 rounded-3xl p-12 space-y-6">
             <div className="flex items-start gap-4">
               <Calendar className="w-6 h-6 text-blue-600 mt-1" />
@@ -402,8 +942,22 @@ export default function TemplateBabyShower() {
             <div className="flex items-start gap-4">
               <MapPin className="w-6 h-6 text-blue-600 mt-1" />
               <div>
-                <p className="text-2xl font-bold">{invitationData.lugar}</p>
-                <p className="text-gray-600">{invitationData.direccion}</p>
+                <p className="text-2xl font-bold">
+                  <EditableField
+                    value={invitationData.lugar}
+                    onSave={(value) => updateInvitationField('lugar', value)}
+                    className="text-2xl font-bold"
+                    inputClassName="text-2xl font-bold w-full"
+                  />
+                </p>
+                <p className="text-gray-600">
+                  <EditableField
+                    value={invitationData.direccion}
+                    onSave={(value) => updateInvitationField('direccion', value)}
+                    className="text-gray-600"
+                    inputClassName="text-gray-600 w-full"
+                  />
+                </p>
               </div>
             </div>
             <button className="w-full mt-8 bg-gradient-to-r from-blue-500 to-pink-500 text-white py-4 rounded-2xl font-bold">
@@ -417,21 +971,46 @@ export default function TemplateBabyShower() {
       <section className="py-16 bg-gradient-to-br from-sand-50 to-blue-50">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <Heart className="w-12 h-12 text-blue-500 mx-auto mb-6" />
-          <h2 className="text-4xl font-bold mb-8 text-gray-900">💙 Los futuros papás</h2>
+          <h2 className="text-4xl font-bold mb-8 text-gray-900">
+            <EditableField
+              value={invitationData.tituloPadres}
+              onSave={(value) => updateInvitationField('tituloPadres', value)}
+              className="text-4xl font-bold text-gray-900"
+              inputClassName="text-4xl font-bold text-gray-900 w-full text-center"
+            />
+          </h2>
+          <p className="text-gray-600 mb-6">
+            <EditableField
+              value={invitationData.subtituloPadres}
+              onSave={(value) => updateInvitationField('subtituloPadres', value)}
+              className="text-gray-600"
+              inputClassName="text-gray-600 w-full text-center"
+            />
+          </p>
           <div className="bg-white rounded-3xl p-8 max-w-2xl mx-auto shadow-lg">
             <div className="space-y-4">
               <div className="flex justify-between items-center">
                 <span className="font-semibold text-lg">Mamá:</span>
-                <span className="text-xl text-blue-600">{invitationData.nombresMama}</span>
+                <span className="text-xl text-blue-600">
+                  <EditableField
+                    value={invitationData.nombresMama}
+                    onSave={(value) => updateInvitationField('nombresMama', value)}
+                    className="text-xl text-blue-600"
+                    inputClassName="text-xl text-blue-600 w-full text-right"
+                  />
+                </span>
               </div>
               <div className="h-px bg-gray-200"></div>
               <div className="flex justify-between items-center">
                 <span className="font-semibold text-lg">Papá:</span>
-                <span className="text-xl text-blue-600">{invitationData.nombresPapa}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="font-semibold">Nombre:</span>
-                <span>Mateo Benjamín</span>
+                <span className="text-xl text-blue-600">
+                  <EditableField
+                    value={invitationData.nombresPapa}
+                    onSave={(value) => updateInvitationField('nombresPapa', value)}
+                    className="text-xl text-blue-600"
+                    inputClassName="text-xl text-blue-600 w-full text-right"
+                  />
+                </span>
               </div>
             </div>
           </div>
@@ -464,20 +1043,40 @@ export default function TemplateBabyShower() {
           <div className="bg-white rounded-3xl p-12 shadow-2xl">
             <div className="text-center mb-8">
               <Baby className="w-12 h-12 text-blue-500 mx-auto mb-4" />
-              <h2 className="text-3xl font-bold mb-4">Confirmá tu asistencia</h2>
+              <h2 className="text-3xl font-bold mb-4">
+                <EditableField
+                  value={invitationData.tituloRSVP}
+                  onSave={(value) => updateInvitationField('tituloRSVP', value)}
+                  className="text-3xl font-bold"
+                  inputClassName="text-3xl font-bold w-full text-center"
+                />
+              </h2>
             </div>
             {showRSVP ? (
               <div className="text-center py-8">
                 <Heart className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold">¡Confirmado! 💙</h3>
+                <h3 className="text-2xl font-bold">
+                  <EditableField
+                    value={invitationData.mensajeConfirmacion}
+                    onSave={(value) => updateInvitationField('mensajeConfirmacion', value)}
+                    className="text-2xl font-bold"
+                    inputClassName="text-2xl font-bold w-full text-center"
+                  />
+                </h3>
               </div>
             ) : (
               <form className="space-y-6" onSubmit={(e) => { e.preventDefault(); setShowRSVP(true); }}>
-                <input type="text" required placeholder="Tu nombre" 
+                <input type="text" required placeholder={invitationData.placeholderNombre}
                   className="w-full px-4 py-3 border-2 rounded-xl focus:outline-none" />
                 <button type="submit" 
                   className="w-full bg-blue-500 hover:bg-blue-600 text-white py-4 rounded-xl font-bold">
-                  👶 Confirmar
+                  <EditableField
+                    value={invitationData.textoBotonRSVP}
+                    onSave={(value) => updateInvitationField('textoBotonRSVP', value)}
+                    className="text-white font-bold"
+                    inputClassName="text-gray-900 font-bold w-full text-center"
+                    showEditIcon={false}
+                  />
                 </button>
               </form>
             )}
@@ -488,12 +1087,62 @@ export default function TemplateBabyShower() {
       <section className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <Gift className="w-12 h-12 text-blue-500 mx-auto mb-6" />
-          <h2 className="text-3xl font-bold mb-4">🎁 Lista de regalos</h2>
+          <h2 className="text-3xl font-bold mb-4">
+            <EditableField
+              value={invitationData.tituloRegalos}
+              onSave={(value) => updateInvitationField('tituloRegalos', value)}
+              className="text-3xl font-bold"
+              inputClassName="text-3xl font-bold w-full text-center"
+            />
+          </h2>
           <p className="text-gray-600 mb-8">
-            Mateo necesita: Ropa (talle RN y 0-3 meses), pañales, productos de higiene
+            <EditableField
+              value={invitationData.descripcionRegalos}
+              onSave={(value) => updateInvitationField('descripcionRegalos', value)}
+              className="text-gray-600"
+              inputClassName="text-gray-600 w-full text-center"
+              multiline
+            />
           </p>
-          <div className="bg-blue-50 rounded-2xl p-6 max-w-md mx-auto">
-            <p className="font-semibold">Alias: MATEO.BABY</p>
+          <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            <div className="bg-blue-50 rounded-2xl p-6">
+              <h3 className="font-bold text-gray-900 mb-2">
+                <EditableField
+                  value={invitationData.tituloRegistro}
+                  onSave={(value) => updateInvitationField('tituloRegistro', value)}
+                  className="font-bold text-gray-900"
+                  inputClassName="font-bold text-gray-900 w-full text-center"
+                />
+              </h3>
+              <button className="mt-2 text-blue-600 hover:text-blue-700 font-semibold">
+                <EditableField
+                  value={invitationData.textoVerRegistro}
+                  onSave={(value) => updateInvitationField('textoVerRegistro', value)}
+                  className="text-blue-600 font-semibold"
+                  inputClassName="text-blue-600 font-semibold w-full text-center"
+                  showEditIcon={false}
+                />
+              </button>
+            </div>
+            <div className="bg-blue-50 rounded-2xl p-6">
+              <h3 className="font-bold text-gray-900 mb-2">
+                <EditableField
+                  value={invitationData.tituloEfectivo}
+                  onSave={(value) => updateInvitationField('tituloEfectivo', value)}
+                  className="font-bold text-gray-900"
+                  inputClassName="font-bold text-gray-900 w-full text-center"
+                />
+              </h3>
+              <p className="text-sm text-gray-600">
+                <EditableField
+                  value={invitationData.descripcionEfectivo}
+                  onSave={(value) => updateInvitationField('descripcionEfectivo', value)}
+                  className="text-sm text-gray-600"
+                  inputClassName="text-sm text-gray-600 w-full text-center"
+                  multiline
+                />
+              </p>
+            </div>
           </div>
         </div>
       </section>

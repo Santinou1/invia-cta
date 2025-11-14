@@ -317,7 +317,7 @@ function App() {
               🎉 Lanzamiento Próximo
             </div>
             <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-              Sé de los primeros en usar URSIS Invitations
+              Sé de los primeros en usar INVIA
             </h2>
             <p className="text-xl text-gray-600 mb-8">
               Sumate a la whitelist y accedé antes que nadie a beneficios exclusivos del lanzamiento
@@ -382,7 +382,7 @@ function App() {
                 </button>
 
                 <p className="text-sm text-gray-500 text-center">
-                  Al registrarte, aceptás recibir novedades sobre URSIS Invitations. Podés cancelar tu suscripción en cualquier momento.
+                  Al registrarte, aceptás recibir novedades sobre INVIA. Podés cancelar tu suscripción en cualquier momento.
                 </p>
               </form>
             )}
@@ -412,7 +412,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-              ¿Para quién es URSIS Invitations?
+              ¿Para quién es INVIA?
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Perfecto para cualquier persona que quiera crear invitaciones memorables
@@ -481,13 +481,13 @@ function App() {
               {
                 name: 'Martín González',
                 role: 'Novio',
-                text: 'Estábamos buscando algo diferente para nuestro casamiento y URSIS nos dio justo lo que necesitábamos. Súper moderno y fácil de usar.',
+                text: 'Estábamos buscando algo diferente para nuestro casamiento y INVIA nos dio justo lo que necesitábamos. Súper moderno y fácil de usar.',
                 avatar: 'MG'
               },
               {
                 name: 'Carolina Ruiz',
                 role: 'Organizadora de eventos',
-                text: 'Uso URSIS para todos mis eventos. Mis clientes quedan fascinados con las invitaciones y el proceso es súper ágil.',
+                text: 'Uso INVIA para todos mis eventos. Mis clientes quedan fascinados con las invitaciones y el proceso es súper ágil.',
                 avatar: 'CR'
               }
             ].map((testimonial, index) => (
@@ -525,12 +525,12 @@ function App() {
           <div className="space-y-6">
             {[
               {
-                question: '¿Cuánto cuesta URSIS Invitations?',
+                question: '¿Cuánto cuesta INVIA?',
                 answer: 'Durante el lanzamiento, los primeros usuarios de la whitelist tendrán acceso a planes con beneficios y descuentos exclusivos. Te avisaremos los detalles cuando estemos listos para lanzar.'
               },
               {
-                question: '¿Necesito saber de diseño para usar URSIS?',
-                answer: 'Para nada. URSIS está diseñado para que cualquier persona pueda crear invitaciones hermosas sin necesidad de experiencia en diseño. Las plantillas ya vienen listas, solo tenés que personalizarlas con tus datos.'
+                question: '¿Necesito saber de diseño para usar INVIA?',
+                answer: 'Para nada. INVIA está diseñado para que cualquier persona pueda crear invitaciones hermosas sin necesidad de experiencia en diseño. Las plantillas ya vienen listas, solo tenés que personalizarlas con tus datos.'
               },
               {
                 question: '¿Cómo comparto las invitaciones con mis invitados?',
@@ -567,7 +567,7 @@ function App() {
             <div className="text-center md:text-left">
               <h3 className="text-2xl font-bold mb-2 flex items-center justify-center md:justify-start gap-2">
                 <Heart className="w-6 h-6 text-nude-400" />
-                URSIS Invitations
+                INVIA
               </h3>
               <p className="text-gray-400">
                 Invitaciones hermosas para momentos inolvidables
@@ -600,7 +600,7 @@ function App() {
           </div>
 
           <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400 text-sm">
-            © 2025 URSIS Invitations. Todos los derechos reservados.
+            © 2025 INVIA. Todos los derechos reservados.
           </div>
         </div>
       </footer>
