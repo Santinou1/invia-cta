@@ -6,10 +6,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        - VITE_API_URL_PRODUCTION=${VITE_API_URL_PRODUCTION}
-        - VITE_API_URL_LOCAL=${VITE_API_URL_LOCAL}
-        - VITE_NODE_ENV=${VITE_NODE_ENV}
     ports:
       - "5543:5543"
     restart: always
