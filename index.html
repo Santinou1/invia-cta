@@ -18,6 +18,25 @@
       gtag('js', new Date());
 
       gtag('config', 'G-N68DKZNHPD');
+      gtag('config', 'AW-17728784706');
+    </script>
+    
+    <!-- Event snippet for Registro conversion page -->
+    <script>
+      function gtag_report_conversion(url) {
+        var callback = function () {
+          if (typeof(url) != 'undefined') {
+            window.location = url;
+          }
+        };
+        gtag('event', 'conversion', {
+            'send_to': 'AW-17728784706/eMDlCPvR4L8bEMKS34VC',
+            'value': 1.0,
+            'currency': 'ARS',
+            'event_callback': callback
+        });
+        return false;
+      }
     </script>
   </head>
   <body>

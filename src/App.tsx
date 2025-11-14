@@ -29,6 +29,12 @@ function App() {
     e.preventDefault()
     // Aquí iría la integración con el backend
     console.log('Whitelist submission:', { name, email })
+    
+    // Reportar conversión a Google Ads
+    if (typeof window !== 'undefined' && (window as any).gtag_report_conversion) {
+      (window as any).gtag_report_conversion()
+    }
+    
     setSubmitted(true)
     setTimeout(() => {
       setSubmitted(false)
