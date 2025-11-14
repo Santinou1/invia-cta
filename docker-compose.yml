@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  whitelist-app:
+    build: .
+    container_name: whitelist-invitations
+    restart: always
+    ports:
+      - "5521:5521"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - whitelist-network
+
+networks:
+  whitelist-network:
+    driver: bridge
