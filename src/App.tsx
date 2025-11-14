@@ -263,6 +263,140 @@ function App() {
         </div>
       </section>
 
+      {/* All Features Section */}
+      <section className="py-20 bg-gradient-to-br from-nude-50 via-sand-50 to-nude-100">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <div className="inline-block bg-nude-500 text-white px-6 py-2 rounded-full text-sm font-semibold mb-6">
+              🚀 Próximamente en 2026
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+              Todo lo que necesitás para tu evento perfecto
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Estamos desarrollando la plataforma más completa para crear y gestionar invitaciones digitales
+            </p>
+          </div>
+
+          <div className="bg-white rounded-3xl shadow-2xl p-8 sm:p-12">
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Más de 20 plantillas profesionales</h3>
+                  <p className="text-gray-600 text-sm">Casamientos, cumpleaños, baby showers, quinceaños, eventos corporativos y mucho más</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Editor avanzado de diseño</h3>
+                  <p className="text-gray-600 text-sm">Personalizá colores, fuentes, imágenes y mucho más con nuestro editor intuitivo</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Gestión completa de invitados</h3>
+                  <p className="text-gray-600 text-sm">Administrá confirmaciones, envía recordatorios y lleva el control de tus invitados</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Compartir por WhatsApp, email y redes</h3>
+                  <p className="text-gray-600 text-sm">Envía tus invitaciones digitales de forma fácil y rápida a todos tus contactos</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Dominio personalizado</h3>
+                  <p className="text-gray-600 text-sm">Crea URLs únicas y memorables para tus eventos especiales</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Analíticas en tiempo real</h3>
+                  <p className="text-gray-600 text-sm">Seguí quién vio tu invitación y quién confirmó asistencia</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Organización de mesas</h3>
+                  <p className="text-gray-600 text-sm">Asigná invitados a mesas y visualizá la distribución de tu evento de forma intuitiva</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Preferencias alimentarias</h3>
+                  <p className="text-gray-600 text-sm">Registrá las preferencias de cada invitado: vegano, vegetariano, celíaco, y más opciones</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">QR para álbum de fotos</h3>
+                  <p className="text-gray-600 text-sm">Generá códigos QR para que tus invitados accedan al álbum de fotos del evento</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0 w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
+                  <CheckCircle2 className="w-6 h-6 text-green-600" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-gray-900 mb-1">Trivias interactivas</h3>
+                  <p className="text-gray-600 text-sm">Agregá juegos y trivias divertidas para que tus invitados interactúen antes y durante el evento</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-12 text-center">
+              <button
+                onClick={scrollToWhitelist}
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-nude-500 to-sand-500 hover:from-nude-600 hover:to-sand-600 text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1"
+              >
+                Sumate a la Whitelist
+                <ArrowRight className="w-5 h-5" />
+              </button>
+              <p className="text-sm text-gray-500 mt-4">
+                Sé de los primeros en acceder cuando lancemos en 2026
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Examples Gallery Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

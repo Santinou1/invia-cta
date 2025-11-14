@@ -1,20 +1,52 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CheckCircle2, Sparkles, Rocket, Gift, ArrowLeft, Calendar, Zap, Users } from 'lucide-react'
+import { CheckCircle2, Sparkles, Rocket, Gift, ArrowLeft, Calendar, Zap, Users, MessageSquare, Loader2, AlertCircle } from 'lucide-react'
+import apiService from '../config/apiService'
+import { WhitelistRegistration } from '../config/api'
 
 export default function Whitelist() {
   const [submitted, setSubmitted] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    eventType: ''
+    eventType: '',
+    interestReason: '',
+    isEventOrganizer: false
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Aquí iría la lógica para enviar a un backend/servicio
-    console.log('Whitelist submission:', formData)
-    setSubmitted(true)
+    setLoading(true)
+    setError('')
+
+    const registrationData: WhitelistRegistration = {
+      name: formData.name.trim(),
+      email: formData.email.trim(),
+      interestReason: formData.interestReason.trim(),
+      isEventOrganizer: formData.isEventOrganizer
+    }
+
+    try {
+      await apiService.registerToWhitelist(registrationData)
+      
+      setSubmitted(true)
+      setTimeout(() => {
+        setSubmitted(false)
+        setFormData({
+          name: '',
+          email: '',
+          eventType: '',
+          interestReason: '',
+          isEventOrganizer: false
+        })
+      }, 5000)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Ocurrió un error inesperado')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -131,6 +163,38 @@ export default function Whitelist() {
                 <p className="text-gray-600 text-sm">Seguí quién vio tu invitación y quién confirmó asistencia</p>
               </div>
             </div>
+
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-semibold text-gray-900">Organización de mesas</h3>
+                <p className="text-gray-600 text-sm">Asigná invitados a mesas y visualizá la distribución de tu evento de forma intuitiva</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-semibold text-gray-900">Preferencias alimentarias</h3>
+                <p className="text-gray-600 text-sm">Registrá las preferencias de cada invitado: vegano, vegetariano, celíaco, y más opciones</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-semibold text-gray-900">QR para álbum de fotos</h3>
+                <p className="text-gray-600 text-sm">Generá códigos QR para que tus invitados accedan al álbum de fotos del evento</p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-3">
+              <CheckCircle2 className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-semibold text-gray-900">Trivias interactivas</h3>
+                <p className="text-gray-600 text-sm">Agregá juegos y trivias divertidas para que tus invitados interactúen antes y durante el evento</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -165,6 +229,13 @@ export default function Whitelist() {
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-6">
+                {error && (
+                  <div className="bg-red-50 border-2 border-red-200 rounded-xl p-4 flex items-center gap-3">
+                    <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0" />
+                    <p className="text-red-700 text-sm">{error}</p>
+                  </div>
+                )}
+
                 <div>
                   <label className="block text-sm font-semibold text-gray-700 mb-2">
                     Tu nombre *
@@ -174,8 +245,9 @@ export default function Whitelist() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    disabled={loading}
                     placeholder="Ej: María González"
-                    className="w-full px-4 py-3 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                   />
                 </div>
 
@@ -188,9 +260,28 @@ export default function Whitelist() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
+                    disabled={loading}
                     placeholder="tu@email.com"
-                    className="w-full px-4 py-3 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none transition-colors"
+                    className="w-full px-4 py-3 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    ¿Por qué te interesa INVIA? *
+                  </label>
+                  <div className="relative">
+                    <MessageSquare className="absolute left-4 top-4 text-gray-400 w-5 h-5" />
+                    <textarea
+                      required
+                      value={formData.interestReason}
+                      onChange={(e) => setFormData({...formData, interestReason: e.target.value})}
+                      disabled={loading}
+                      rows={4}
+                      placeholder="Contanos qué tipo de eventos organizás o qué te atrae de crear invitaciones digitales..."
+                      className="w-full pl-12 pr-4 py-3 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none transition-colors resize-none disabled:bg-gray-50 disabled:cursor-not-allowed"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -201,7 +292,8 @@ export default function Whitelist() {
                     required
                     value={formData.eventType}
                     onChange={(e) => setFormData({...formData, eventType: e.target.value})}
-                    className="w-full px-4 py-3 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none transition-colors"
+                    disabled={loading}
+                    className="w-full px-4 py-3 border-2 border-sand-200 rounded-xl focus:border-nude-400 focus:outline-none transition-colors disabled:bg-gray-50 disabled:cursor-not-allowed"
                   >
                     <option value="">Seleccioná una opción</option>
                     <option value="casamiento">💒 Casamiento</option>
@@ -213,12 +305,39 @@ export default function Whitelist() {
                   </select>
                 </div>
 
+                <div className="flex items-start gap-3">
+                  <input
+                    type="checkbox"
+                    id="isEventOrganizer"
+                    checked={formData.isEventOrganizer}
+                    onChange={(e) => setFormData({...formData, isEventOrganizer: e.target.checked})}
+                    disabled={loading}
+                    className="mt-1 w-5 h-5 text-nude-500 border-2 border-sand-200 rounded focus:ring-nude-400 focus:ring-2 disabled:cursor-not-allowed"
+                  />
+                  <label htmlFor="isEventOrganizer" className="text-sm text-gray-700 cursor-pointer">
+                    <span className="font-semibold">Soy organizador/a de eventos</span>
+                    <p className="text-gray-500 mt-1">
+                      Organizás bodas, cumpleaños, eventos corporativos u otros tipos de celebraciones
+                    </p>
+                  </label>
+                </div>
+
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-nude-500 to-sand-500 hover:from-nude-600 hover:to-sand-600 text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2"
+                  disabled={loading}
+                  className="w-full bg-gradient-to-r from-nude-500 to-sand-500 hover:from-nude-600 hover:to-sand-600 disabled:bg-gray-400 disabled:cursor-not-allowed text-white py-4 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-1 flex items-center justify-center gap-2"
                 >
-                  <Users className="w-5 h-5" />
-                  Unirme a la Whitelist
+                  {loading ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Registrando...
+                    </>
+                  ) : (
+                    <>
+                      <Users className="w-5 h-5" />
+                      Unirme a la Whitelist
+                    </>
+                  )}
                 </button>
 
                 <p className="text-xs text-gray-500 text-center">
