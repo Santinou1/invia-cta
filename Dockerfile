@@ -1,6 +1,11 @@
 # 1) Build del front
 FROM node:18-alpine AS build
 
+# Build arguments
+ARG VITE_API_URL_PRODUCTION
+ARG VITE_API_URL_LOCAL
+ARG VITE_NODE_ENV
+
 # Seteamos directorio de trabajo
 WORKDIR /app
 
@@ -9,6 +14,9 @@ COPY package*.json ./
 
 # Instalamos dependencias
 RUN npm install
+
+# Copiamos el archivo .env
+COPY .env .
 
 # Copiamos el resto del código
 COPY . .
