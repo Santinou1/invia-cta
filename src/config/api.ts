@@ -5,15 +5,10 @@ const API_CONFIG = {
     const prodUrl = import.meta.env.VITE_API_URL_PRODUCTION
     const localUrl = import.meta.env.VITE_API_URL_LOCAL
     
-    console.log('🔧 Environment Variables:', {
-      VITE_NODE_ENV: nodeEnv,
-      VITE_API_URL_PRODUCTION: prodUrl,
-      VITE_API_URL_LOCAL: localUrl
-    })
     
     // Fallback values
-    const fallbackProdUrl = 'https://ursis.com.ar/invia/api'
-    const fallbackLocalUrl = 'http://localhost:3269/api'
+    const fallbackProdUrl = 'https://your-production-domain.com/api'
+    const fallbackLocalUrl = 'http://localhost:3000/api'
     
     if (nodeEnv === 'production') {
       return prodUrl || fallbackProdUrl

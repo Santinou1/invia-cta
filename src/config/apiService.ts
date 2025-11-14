@@ -14,14 +14,6 @@ class ApiService {
     const timeoutId = setTimeout(() => controller.abort(), this.timeout)
 
     const url = `${this.baseURL}${API_CONFIG.endpoints.whitelist}`
-    
-    // Debug logging
-    console.log('🚀 API Request:', {
-      url,
-      method: 'POST',
-      headers: API_CONFIG.headers,
-      data
-    })
 
     try {
       const response = await fetch(url, {
@@ -33,12 +25,6 @@ class ApiService {
 
       clearTimeout(timeoutId)
 
-      console.log('📡 API Response:', {
-        status: response.status,
-        statusText: response.statusText,
-        headers: Object.fromEntries(response.headers.entries()),
-        url: response.url
-      })
 
       // Check if response is JSON
       const contentType = response.headers.get('content-type')
@@ -53,12 +39,7 @@ class ApiService {
             const errorData = await response.json()
             errorMessage = errorData.message || errorMessage
           } catch (e) {
-            console.warn('Could not parse error response as JSON')
           }
-        } else {
-          // If not JSON, log the HTML response for debugging
-          const htmlResponse = await response.text()
-          console.error('❌ Received HTML instead of JSON:', htmlResponse.substring(0, 500))
         }
         
         switch (response.status) {
@@ -82,13 +63,10 @@ class ApiService {
       }
 
       if (!isJson) {
-        const htmlResponse = await response.text()
-        console.error('❌ Expected JSON but received HTML:', htmlResponse.substring(0, 500))
         throw new Error('El servidor respondió con un formato incorrecto. Verificá la configuración de la API')
       }
 
       const result: WhitelistResponse = await response.json()
-      console.log('✅ API Success:', result)
       return result
     } catch (error) {
       clearTimeout(timeoutId)
@@ -103,7 +81,6 @@ class ApiService {
           throw new Error('El servidor respondió con un formato incorrecto. Verificá que la API esté funcionando correctamente')
         }
         
-        console.error('❌ API Error:', error)
         throw error
       }
       
