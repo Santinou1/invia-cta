@@ -1,8 +1,26 @@
 // API Configuration
 const API_CONFIG = {
-  baseURL: import.meta.env.VITE_NODE_ENV === 'production' 
-    ? import.meta.env.VITE_API_URL_PRODUCTION 
-    : import.meta.env.VITE_API_URL_LOCAL,
+  baseURL: (() => {
+    const nodeEnv = import.meta.env.VITE_NODE_ENV
+    const prodUrl = import.meta.env.VITE_API_URL_PRODUCTION
+    const localUrl = import.meta.env.VITE_API_URL_LOCAL
+    
+    console.log('🔧 Environment Variables:', {
+      VITE_NODE_ENV: nodeEnv,
+      VITE_API_URL_PRODUCTION: prodUrl,
+      VITE_API_URL_LOCAL: localUrl
+    })
+    
+    // Fallback values
+    const fallbackProdUrl = 'https://ursis.com.ar/invia/api'
+    const fallbackLocalUrl = 'http://localhost:3269/api'
+    
+    if (nodeEnv === 'production') {
+      return prodUrl || fallbackProdUrl
+    } else {
+      return localUrl || fallbackLocalUrl
+    }
+  })(),
   endpoints: {
     whitelist: '/whitelist/register'
   },
