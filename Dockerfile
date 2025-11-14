@@ -15,11 +15,13 @@ COPY package*.json ./
 # Instalamos dependencias
 RUN npm install
 
-# Copiamos el archivo .env
-COPY .env .
-
 # Copiamos el resto del código
 COPY . .
+
+# Creamos .env con los build args
+RUN echo "VITE_API_URL_PRODUCTION=${VITE_API_URL_PRODUCTION}" > .env && \
+    echo "VITE_API_URL_LOCAL=${VITE_API_URL_LOCAL}" >> .env && \
+    echo "VITE_NODE_ENV=${VITE_NODE_ENV}" >> .env
 
 # Build de producción
 RUN npm run build
