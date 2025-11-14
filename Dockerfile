@@ -10,8 +10,11 @@ COPY package*.json ./
 # Instalamos dependencias
 RUN npm install
 
-# Copiamos el resto del código (incluyendo .env si existe)
+# Copiamos el resto del código
 COPY . .
+
+# Copiamos .env explícitamente (ya que está en .gitignore)
+COPY .env* ./
 
 # Build de producción
 RUN npm run build
