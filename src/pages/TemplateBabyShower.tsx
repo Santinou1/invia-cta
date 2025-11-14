@@ -165,9 +165,6 @@ export default function TemplateBabyShower() {
     }
   }
 
-  const colorScheme = invitationData.sexo === 'niño' 
-    ? { primary: 'blue', secondary: 'sky', emoji: '👶💙' }
-    : { primary: 'pink', secondary: 'rose', emoji: '👶💗' }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-sand-50 to-blue-100">
