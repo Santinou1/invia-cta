@@ -7,6 +7,20 @@ export default {
   theme: {
     extend: {
       colors: {
+        violet: {
+          50: '#f5f0ff',
+          100: '#ede0ff',
+          200: '#dbc7ff',
+          300: '#c4a3ff',
+          400: '#a872ff',
+          500: '#8b42ff',
+          600: '#7422ff',
+          700: '#6415eb',
+          800: '#4a00bf',
+          900: '#3d00a0',
+          950: '#250069',
+        },
+        // Mantener sand y nude por si se necesitan, pero reemplazar con violeta
         sand: {
           50: '#fdfcfb',
           100: '#faf8f5',
@@ -33,7 +47,7 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
       },
     },
   },
