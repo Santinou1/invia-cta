@@ -41,3 +41,10 @@ npm run build
 ```bash
 npm run preview
 ```
+
+## 📚 Documentación
+
+Toda la documentación técnica del proyecto se encuentra en la carpeta [`docs/`](./docs/).
+
+- **SEO**: Auditoría, implementación y checklist de tareas
+- Ver [`docs/README.md`](./docs/README.md) para más detalles

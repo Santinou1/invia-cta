@@ -7,11 +7,15 @@ import TemplateCumpleanos from './pages/TemplateCumpleanos.tsx'
 import TemplateQuinceanos from './pages/TemplateQuinceanos.tsx'
 import TemplateBabyShower from './pages/TemplateBabyShower.tsx'
 import Whitelist from './pages/Whitelist.tsx'
+import SEOHead from './components/SEOHead.tsx'
+import SchemaMarkup from './components/SchemaMarkup.tsx'
 import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
+      <SEOHead />
+      <SchemaMarkup />
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/template/casamiento" element={<TemplateCasamiento />} />

@@ -1,4 +1,29 @@
+# Robots.txt para INVIA - https://invia.ursis.com.ar
+# Producto de URSIS - Landing pre-lanzamiento
+
 User-agent: *
 Allow: /
+Allow: /whitelist
 
+# Bloquear demos interactivos y rutas de usuario
+Disallow: /template/
+Disallow: /admin
+Disallow: /dashboard
+Disallow: /preview
+Disallow: /form
+Disallow: /api/
+
+# Permitir acceso a recursos estáticos
+Allow: /assets/
+Allow: /*.css
+Allow: /*.js
+Allow: /*.jpg
+Allow: /*.png
+Allow: /*.svg
+Allow: /*.webp
+
+# Sitemap
 Sitemap: https://invia.ursis.com.ar/sitemap.xml
+
+# Crawl-delay (opcional, ajustar según necesidad)
+# Crawl-delay: 1

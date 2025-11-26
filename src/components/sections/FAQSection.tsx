@@ -1,4 +1,5 @@
 import { ChevronDown } from 'lucide-react'
+import { useEffect } from 'react'
 
 export default function FAQSection() {
   const faqs = [
@@ -19,6 +20,31 @@ export default function FAQSection() {
       answer: 'Sí, podés editar tu invitación todas las veces que quieras. Los cambios se reflejan en tiempo real para todos tus invitados.'
     }
   ]
+
+  // Schema FAQPage para rich snippets
+  useEffect(() => {
+    const faqSchema = {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: faqs.map(faq => ({
+        '@type': 'Question',
+        name: faq.question,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: faq.answer
+        }
+      }))
+    }
+
+    let script = document.getElementById('faq-schema') as HTMLScriptElement | null
+    if (!script) {
+      script = document.createElement('script')
+      script.id = 'faq-schema'
+      script.type = 'application/ld+json'
+      document.head.appendChild(script)
+    }
+    script.textContent = JSON.stringify(faqSchema, null, 2)
+  }, [])
 
   return (
     <section id="faq" className="py-20 bg-white">

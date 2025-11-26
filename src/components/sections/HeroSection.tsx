@@ -16,16 +16,22 @@ export default function HeroSection({ onScrollToWhitelist }: HeroSectionProps) {
           src={banner01} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover opacity-0 animate-banner-1"
+          aria-hidden="true"
+          loading="lazy"
         />
         <img 
           src={banner02} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover opacity-0 animate-banner-2"
+          aria-hidden="true"
+          loading="lazy"
         />
         <img 
           src={banner03} 
           alt="" 
           className="absolute inset-0 w-full h-full object-cover opacity-0 animate-banner-3"
+          aria-hidden="true"
+          loading="lazy"
         />
         {/* Overlay oscuro para mejorar legibilidad */}
         <div className="absolute inset-0 bg-black/30"></div>
@@ -60,10 +66,10 @@ export default function HeroSection({ onScrollToWhitelist }: HeroSectionProps) {
                 <ArrowRight className="w-5 h-5" />
               </button>
               <button 
-                onClick={() => document.getElementById('como-funciona')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => document.getElementById('plantillas')?.scrollIntoView({ behavior: 'smooth' })}
                 className="bg-white hover:bg-violet-50 text-gray-800 px-8 py-4 rounded-full font-semibold text-lg border-2 border-violet-200 hover:border-violet-300 transition-all duration-300 flex items-center justify-center gap-2"
               >
-                Ver cómo funciona
+                Crear mi tarjeta de ejemplo
                 <ChevronDown className="w-5 h-5" />
               </button>
             </div>

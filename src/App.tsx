@@ -16,19 +16,21 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen">
+    <>
       <Header onScrollToWhitelist={scrollToWhitelist} />
-      <HeroSection onScrollToWhitelist={scrollToWhitelist} />
-      <BenefitsSection />
-      <HowItWorksSection />
-      <AllFeaturesSection onScrollToWhitelist={scrollToWhitelist} />
-      <ExamplesGallerySection />
-      <WhitelistCTASection />
-      <WhoIsItForSection />
-      <TestimonialsSection />
-      <FAQSection />
+      <main className="min-h-screen">
+        <HeroSection onScrollToWhitelist={scrollToWhitelist} />
+        <BenefitsSection />
+        <HowItWorksSection />
+        <AllFeaturesSection onScrollToWhitelist={scrollToWhitelist} />
+        <ExamplesGallerySection />
+        <WhitelistCTASection />
+        <WhoIsItForSection />
+        <TestimonialsSection />
+        <FAQSection />
+      </main>
       <Footer />
-    </div>
+    </>
   )
 }
 

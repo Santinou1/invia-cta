@@ -232,8 +232,8 @@ export default function TemplateCasamiento() {
 
       {/* Formulario de Personalización */}
       {!formCompleted && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-nude-50 via-sand-50 to-nude-100 overflow-y-auto p-4">
-          <div className="max-w-2xl w-full my-8">
+        <div className="fixed inset-0 z-[100] flex justify-center bg-gradient-to-br from-nude-50 via-sand-50 to-nude-100 overflow-y-auto p-4">
+          <div className="max-w-2xl w-full my-auto py-8">
             <div className="bg-white rounded-3xl shadow-2xl p-8 sm:p-12">
               <div className="text-center mb-8">
                 <Heart className="w-16 h-16 text-nude-500 mx-auto mb-4" />
