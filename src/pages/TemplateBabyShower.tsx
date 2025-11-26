@@ -175,8 +175,8 @@ export default function TemplateBabyShower() {
 
       {/* Formulario */}
       {!formCompleted && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-blue-50 via-pink-50 to-blue-100 overflow-y-auto p-4">
-          <div className="max-w-2xl w-full my-8">
+        <div className="fixed inset-0 z-[100] flex justify-center bg-gradient-to-br from-blue-50 via-pink-50 to-blue-100 overflow-y-auto p-4">
+          <div className="max-w-2xl w-full my-auto py-8">
             <div className="bg-white rounded-3xl shadow-2xl p-8 sm:p-12">
               <div className="text-center mb-8">
                 <Baby className="w-16 h-16 text-blue-500 mx-auto mb-4" />

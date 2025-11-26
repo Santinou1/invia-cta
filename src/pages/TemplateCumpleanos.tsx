@@ -242,8 +242,8 @@ export default function TemplateCumpleanos() {
 
       {/* Formulario de Personalización */}
       {!formCompleted && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-gradient-to-br from-blue-50 via-pink-50 to-purple-50 overflow-y-auto p-4">
-          <div className="max-w-2xl w-full my-8">
+        <div className="fixed inset-0 z-[100] flex justify-center bg-gradient-to-br from-blue-50 via-pink-50 to-purple-50 overflow-y-auto p-4">
+          <div className="max-w-2xl w-full my-auto py-8">
             <div className="bg-white rounded-3xl shadow-2xl p-8 sm:p-12">
               <div className="text-center mb-8">
                 <PartyPopper className="w-16 h-16 text-purple-500 mx-auto mb-4" />
